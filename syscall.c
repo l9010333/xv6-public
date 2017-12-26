@@ -22,6 +22,7 @@ fetchint(uint addr, int *ip)
   if(addr >= curproc->sz || addr+4 > curproc->sz)
     return -1;
   *ip = *(int*)(addr);
+  cprintf("argu: %d\n", *ip);//
   return 0;
 }
 
@@ -37,6 +38,8 @@ fetchstr(uint addr, char **pp)
   if(addr >= curproc->sz)
     return -1;
   *pp = (char*)addr;
+  cprintf("argu: %s\n", *pp); //
+
   ep = (char*)curproc->sz;
   for(s = *pp; s < ep; s++){
     if(*s == 0)
@@ -137,6 +140,78 @@ syscall(void)
   num = curproc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     curproc->tf->eax = syscalls[num]();
+	char* name;
+	switch (num) {
+		case 1:
+				name = "fork";
+				break;
+		case 2:
+			name = "exit";
+			break;
+		case 3:
+			name = "wait";
+			break;
+		case 4:
+			name = "pipe";
+			break;
+		case 5:
+			name = "read";
+			break;
+		case 6:
+			name = "kill";
+			break;
+		case 7:
+			name = "exec";
+			break;
+		case 8:
+			name = "fstat";
+			break;
+		case 9:
+			name = "chdir";
+			break;
+		case 10:
+			name = "dup";
+			break;
+		case 11:
+			name = "getpid";
+			break;
+		case 12:
+			name = "sbrk";
+			break;
+		case 13:
+			name = "sleep";
+			break;
+		case 14:
+			name = "uptime";
+			break;
+		case 15:
+			name = "open";
+			break;
+		case 16:
+			name = "write";
+			break;
+		case 17:
+			name = "mknod";
+			break;
+		case 18:
+			name = "unlink";
+			break;
+		case 19:
+			name = "link";
+			break;
+		case 20:
+			name = "medir";
+			break;
+		case 21:
+			name = "close";
+			break;
+		case 22:
+			name = "halt";
+			break;
+		default:
+			panic("Wrong");															
+	}
+	cprintf("%s -> %dn", name, curproc->tf->eax);
   } else {
     cprintf("%d %s: unknown sys call %d\n",
             curproc->pid, curproc->name, num);
