@@ -129,8 +129,9 @@ static int (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_halt]	  sys_halt,
 };
-
+extern int sys_halt(void);
 void
 syscall(void)
 {
