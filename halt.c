@@ -8,6 +8,7 @@ int halt();
 int 
 main(int argc, char *argv[])
 {
+	printf(1, "Shutting Down:\n");
 	halt();
 	return 0;
 }

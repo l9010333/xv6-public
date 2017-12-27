@@ -92,8 +92,32 @@ sys_uptime(void)
 int
 sys_halt(void)
 {
-	char *p = "Shutdown";
-	for (; *p; p++)
-		outb(0x8900, *p);
+	//char *p = "Shutdown";
+	//for (; *p; p++)
+		//outb(0x8900, *p);
+	cprintf("shutdown\n");
+	outw(0xB004, 0x0 | 0x2000 );
 	return 0;
+}
+int
+sys_alarm(void)
+{
+  int ticks;
+  void (*handler)();
+
+  if(argint(0, &ticks)<0)
+	return -1;
+  if(argptr(1, (char**)&handler, 1)<0)
+	return -1;
+  myproc()->alarmticks = ticks;
+  myproc()->alarmhandler =handler;
+  return 0;
+}
+int
+sys_date(void)
+{
+  struct rtcdate* date;
+  argptr(0, (void*)(&date), sizeof(*date));
+  cmostime(date);
+  return 0;
 }

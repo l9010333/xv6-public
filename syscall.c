@@ -22,7 +22,7 @@ fetchint(uint addr, int *ip)
   if(addr >= curproc->sz || addr+4 > curproc->sz)
     return -1;
   *ip = *(int*)(addr);
-  cprintf("argu: %d\n", *ip);//
+  //cprintf("argu: %d\n", *ip);//
   return 0;
 }
 
@@ -38,7 +38,7 @@ fetchstr(uint addr, char **pp)
   if(addr >= curproc->sz)
     return -1;
   *pp = (char*)addr;
-  cprintf("argu: %s\n", *pp); //
+  //cprintf("argu: %s\n", *pp); //
 
   ep = (char*)curproc->sz;
   for(s = *pp; s < ep; s++){
@@ -106,6 +106,9 @@ extern int sys_unlink(void);
 extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
+extern int sys_halt(void);
+extern int sys_alarm(void);
+extern int sys_date(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -129,9 +132,12 @@ static int (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_halt]	  sys_halt,
+[SYS_halt]    sys_halt,
+[SYS_alarm]   sys_alarm,
+[SYS_date]    sys_date,
 };
-extern int sys_halt(void);
+
+
 void
 syscall(void)
 {
@@ -141,7 +147,7 @@ syscall(void)
   num = curproc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     curproc->tf->eax = syscalls[num]();
-	char* name;
+	/*char* name;
 	switch (num) {
 		case 1:
 				name = "fork";
@@ -212,7 +218,7 @@ syscall(void)
 		default:
 			panic("Wrong");															
 	}
-	cprintf("%s -> %dn", name, curproc->tf->eax);
+	cprintf("%s -> %dn", name, curproc->tf->eax);*/
   } else {
     cprintf("%d %s: unknown sys call %d\n",
             curproc->pid, curproc->name, num);
