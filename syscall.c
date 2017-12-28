@@ -109,6 +109,9 @@ extern int sys_uptime(void);
 extern int sys_halt(void);
 extern int sys_alarm(void);
 extern int sys_date(void);
+extern int sys_getppid(void);
+extern int sys_getAllPids(void);
+extern int sys_cps(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -135,6 +138,9 @@ static int (*syscalls[])(void) = {
 [SYS_halt]    sys_halt,
 [SYS_alarm]   sys_alarm,
 [SYS_date]    sys_date,
+[SYS_getAllPids] sys_getAllPids,
+[SYS_getppid] sys_getppid,
+[SYS_cps] sys_cps,
 };
 
 

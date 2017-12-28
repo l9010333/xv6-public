@@ -23,3 +23,6 @@
 #define SYS_halt   22
 #define SYS_alarm  23
 #define SYS_date   24
+#define SYS_getAllPids 25
+#define SYS_getppid 26
+#define SYS_cps 27

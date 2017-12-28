@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "pstat.h"
 
 struct {
   struct spinlock lock;
@@ -65,11 +66,34 @@ myproc(void) {
   return p;
 }
 
+int cps()
+{
+  struct proc *p;
+
+  sti();
+
+  acquire(&ptable.lock);
+  cprintf("name \t pid \t state \t \t priority \n");
+  for (p = ptable.proc; p< &ptable.proc[NPROC];p++)
+  {
+    if (p->state == SLEEPING)
+      cprintf("%s \t %d  \t SLEEPING \t  %d\n", p->name, p->pid, p->priority);
+    else if(p->state == RUNNING)
+      cprintf("%s \t %d  \t RUNNING \t  %d\n", p->name, p->pid, p->priority);
+    else if(p->state == RUNNABLE)
+      cprintf("%s \t %d  \t RUNNABLE \t %d\n", p->name, p->pid, p->priority);
+  }
+
+  release(&ptable.lock);
+  return 27;
+}
+
 //PAGEBREAK: 32
 // Look in the process table for an UNUSED proc.
 // If found, change state to EMBRYO and initialize
 // state required to run in the kernel.
 // Otherwise return 0.
+//static struct pstat stat;
 static struct proc*
 allocproc(void)
 {
@@ -88,7 +112,17 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-
+  p->priority = 10;
+  pstat.inuse[p-ptable.proc] = 1;
+  pstat.pid[p-ptable.proc] = p->pid;
+  //pstat.name[p-ptable.proc] = p->name;
+  pstat.name[p-ptable.proc][0] = p->name[0];
+  pstat.name[p-ptable.proc][1] = p->name[1];
+  pstat.name[p-ptable.proc][2] = p->name[2];
+  pstat.hticks[p-ptable.proc] = 0;
+  pstat.lticks[p-ptable.proc] = 0;
+  pstat.state = p->state;
+  pstat.priority = p->priority;
   release(&ptable.lock);
 
   // Allocate kernel stack.

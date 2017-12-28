@@ -1,3 +1,5 @@
+#include "pstat.h"
+
 // Per-CPU state
 struct cpu {
   uchar apicid;                // Local APIC ID
@@ -12,6 +14,8 @@ struct cpu {
 
 extern struct cpu cpus[NCPU];
 extern int ncpu;
+
+int cps();
 
 //PAGEBREAK: 17
 // Saved registers for kernel context switches.
@@ -34,6 +38,8 @@ struct context {
 
 enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
+struct pstat pstat;
+
 // Per-process state
 struct proc {
   uint sz;                     // Size of process memory (bytes)
@@ -52,6 +58,8 @@ struct proc {
   int alarmticks;
   void (*alarmhandler)();
   int curalarmtick;
+  int priority;
+
 };
 
 // Process memory is laid out contiguously, low addresses first:

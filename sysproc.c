@@ -6,6 +6,8 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#include "pstat.h"
+
 
 int
 sys_fork(void)
@@ -40,6 +42,12 @@ int
 sys_getpid(void)
 {
   return myproc()->pid;
+}
+
+int
+sys_getppid(void)
+{
+  return myproc()->parent->pid;
 }
 
 int
@@ -113,6 +121,7 @@ sys_alarm(void)
   myproc()->alarmhandler =handler;
   return 0;
 }
+
 int
 sys_date(void)
 {
@@ -120,4 +129,35 @@ sys_date(void)
   argptr(0, (void*)(&date), sizeof(*date));
   cmostime(date);
   return 0;
+}
+
+
+
+int
+sys_getAllPids(void)
+{
+  
+  struct pstat *st;
+  if (argptr(0, (void*)&st, sizeof(*st))<0)
+    return -1;
+  for(int i = 0;i<NPROC;i++)
+  {
+    st->inuse[i] = pstat.inuse[i],
+    st->pid[i] = pstat.pid[i],
+    st->name[i][0] = pstat.name[i][0],
+    st->name[i][1] = pstat.name[i][1],
+    st->name[i][2] = pstat.name[i][2],
+    st->hticks[i] = pstat.hticks[i],
+    st->lticks[i] = pstat.lticks[i];
+    st->priority = pstat.priority;
+    st->state = pstat.state;
+  }
+
+  return 0;
+}
+
+int
+sys_cps(void)
+{
+  return cps();
 }
