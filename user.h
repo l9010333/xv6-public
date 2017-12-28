@@ -29,6 +29,7 @@ int alarm(int ticks, void (*handler)());
 int getppid(void);
 int getAllPids(struct pstat*);
 int cps(void);
+int chpr(int pid, int priority);
 
 // ulib.c
 int stat(char*, struct stat*);

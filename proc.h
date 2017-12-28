@@ -16,6 +16,7 @@ extern struct cpu cpus[NCPU];
 extern int ncpu;
 
 int cps();
+int chpr(int pid, int priority);
 
 //PAGEBREAK: 17
 // Saved registers for kernel context switches.

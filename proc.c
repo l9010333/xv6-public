@@ -73,15 +73,42 @@ int cps()
   sti();
 
   acquire(&ptable.lock);
-  cprintf("name \t pid \t state \t \t priority \n");
+  cprintf("Name\tPid\tState\t\tPri.\tParent\n");
   for (p = ptable.proc; p< &ptable.proc[NPROC];p++)
   {
     if (p->state == SLEEPING)
-      cprintf("%s \t %d  \t SLEEPING \t  %d\n", p->name, p->pid, p->priority);
+    {
+      cprintf("%s\t%d\tSLEEPING\t%d\t", p->name, p->pid, p->priority);
+      if(p->parent)
+      {
+        cprintf("%d", p->parent->pid);
+      }
+      else
+        cprintf("parent");
+      cprintf("\n");
+    }
     else if(p->state == RUNNING)
-      cprintf("%s \t %d  \t RUNNING \t  %d\n", p->name, p->pid, p->priority);
+    {
+      cprintf("%s\t%d\tRUNNING \t%d\t", p->name, p->pid, p->priority);
+      if(p->parent)
+      {
+        cprintf("%d", p->parent->pid);
+      }
+      else
+        cprintf("parent");
+      cprintf("\n");
+    }
     else if(p->state == RUNNABLE)
-      cprintf("%s \t %d  \t RUNNABLE \t %d\n", p->name, p->pid, p->priority);
+    {
+      cprintf("%s\t%d\tRUNNABLE\t%d\t", p->name, p->pid, p->priority);
+      if(p->parent)
+      {
+        cprintf("%d", p->parent->pid);
+      }
+      else
+        cprintf("parent");
+      cprintf("\n");
+    }
   }
 
   release(&ptable.lock);
@@ -565,4 +592,24 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+int
+chpr(int pid, int priority)
+{
+  struct proc *p;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if(p->pid == pid)
+    {
+      p->priority = priority;
+      break;
+    }
+  }
+  release(&ptable.lock);
+
+  return pid;
+
 }

@@ -112,6 +112,7 @@ extern int sys_date(void);
 extern int sys_getppid(void);
 extern int sys_getAllPids(void);
 extern int sys_cps(void);
+extern int sys_chpr(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -141,6 +142,7 @@ static int (*syscalls[])(void) = {
 [SYS_getAllPids] sys_getAllPids,
 [SYS_getppid] sys_getppid,
 [SYS_cps] sys_cps,
+[SYS_chpr] sys_chpr,
 };
 
 

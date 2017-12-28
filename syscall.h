@@ -26,3 +26,4 @@
 #define SYS_getAllPids 25
 #define SYS_getppid 26
 #define SYS_cps 27
+#define SYS_chpr 28
