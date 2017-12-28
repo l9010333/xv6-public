@@ -173,3 +173,32 @@ sys_chpr(void)
 
   return chpr(pid,pr);
 }
+int
+sys_prisleep(void)
+{
+ int curmaxpri;
+ if(argint(0, &curmaxpri)<0)
+   return -1;
+ return prisleep(curmaxpri);
+
+}
+int
+sys_priawake(void)
+{
+ int curmaxpri;
+ if(argint(0, &curmaxpri)<0)
+   return -1;
+ return priawake(curmaxpri);
+}
+int
+sys_timerx(void)
+{
+  //int curmaxpri;
+  struct rtcdate *date;
+  if(argptr(0, (void*)(&date), sizeof(*date))<0)
+    return -1;
+  //if(argint(1, &curmaxpri)<0)
+    //return -1;
+  cmostime(date);
+  return 0;
+}

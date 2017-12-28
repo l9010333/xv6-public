@@ -182,7 +182,9 @@ UPROGS=\
 	_foo\
 	_ps\
 	_nice\
-
+	_prisleep\
+	_priawake\
+	_timerx\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

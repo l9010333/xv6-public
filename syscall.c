@@ -113,6 +113,9 @@ extern int sys_getppid(void);
 extern int sys_getAllPids(void);
 extern int sys_cps(void);
 extern int sys_chpr(void);
+extern int sys_prisleep(void);
+extern int sys_priawake(void);
+extern int sys_timerx(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -141,8 +144,11 @@ static int (*syscalls[])(void) = {
 [SYS_date]    sys_date,
 [SYS_getAllPids] sys_getAllPids,
 [SYS_getppid] sys_getppid,
-[SYS_cps] sys_cps,
-[SYS_chpr] sys_chpr,
+[SYS_cps]     sys_cps,
+[SYS_chpr]    sys_chpr,
+[SYS_prisleep] sys_prisleep,
+[SYS_priawake] sys_priawake,
+[SYS_timerx]   sys_timerx,
 };
 
 

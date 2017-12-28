@@ -60,7 +60,7 @@ struct proc {
   void (*alarmhandler)();
   int curalarmtick;
   int priority;
-
+  enum procstate last_state;
 };
 
 // Process memory is laid out contiguously, low addresses first:

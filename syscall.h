@@ -27,3 +27,6 @@
 #define SYS_getppid 26
 #define SYS_cps 27
 #define SYS_chpr 28
+#define SYS_prisleep 29
+#define SYS_priawake 30
+#define SYS_timerx 31
