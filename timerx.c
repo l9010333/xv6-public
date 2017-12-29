@@ -36,6 +36,7 @@ main(int argc, char *argv[])
       if(count!=cursecond-temp.second)
         printf(1, "Count: %d\n", count=cursecond-temp.second);
     }    
+    printf(1, "%d-%d-%d %d:%d:%d\n", r.year, r.month, r.day, r.hour, r.minute, r.second);
 
   }
   else

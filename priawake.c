@@ -13,6 +13,7 @@ main(int argc, char*argv[])
     exit();
   } 
   printf(1, "Maxpriority: %d\n", atoi(argv[1]));
+  printf(1, "Awake success.\n");
   priawake(atoi(argv[1]));
   exit();
 }
